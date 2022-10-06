@@ -98,3 +98,6 @@ button {
   outline: none;
   padding: 1rem;
 }
+ul{
+  list-style: none;
+}

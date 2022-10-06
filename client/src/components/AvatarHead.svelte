@@ -1,12 +1,16 @@
 <script>
-  export let imgSrc
-  export let background
+  export let imgSrc = "/head.png"
+  export let background = "white"
+  export let animationState = "paused"
+  export let width
 </script>
 
 <div
   class="container"
+  style:width
   style:--head-url={`url(${imgSrc})`}
   style:--background={background}
+  style:--animation-state={animationState}
 >
   <div class="head-container top">
     <img class="top-head-img" src={imgSrc} alt="" />
@@ -19,14 +23,17 @@
 <style>
   .container {
     position: relative;
+    width: max-content;
   }
   img {
     object-fit: contain;
     filter: grayscale();
+    width: 100%;
+    height: 100%;
   }
 
   .head-container.top {
-    animation: topHeadMove 1s infinite linear alternate;
+    animation: topHeadMove 1s infinite linear alternate var(--animation-state);
   }
   .head-container.top::before {
     content: "";
@@ -39,13 +46,16 @@
     background: var(--background);
     -webkit-mask-image: var(--head-url);
     mask-image: var(--head-url);
+    -webkit-mask-size: contain;
+    mask-size: contain;
     clip-path: polygon(-10% -10%, 100% 0, 100% 70%, 0 70%);
   }
   .head-container.bottom {
     position: absolute;
     top: 0;
     left: 0;
-    animation: bottomHeadMove 1s infinite linear alternate;
+    animation: bottomHeadMove 1s infinite linear alternate
+      var(--animation-state);
     clip-path: polygon(0 70%, 100% 70%, 110% 100%, -10% 100%);
   }
   .head-container.bottom::before {
@@ -59,6 +69,8 @@
     background: var(--background);
     -webkit-mask-image: var(--head-url);
     mask-image: var(--head-url);
+    -webkit-mask-size: contain;
+    mask-size: contain;
     clip-path: ellipse(40% 50% at 50% 40%);
   }
   .top-head-img {
