@@ -48,7 +48,7 @@
     mask-image: var(--head-url);
     -webkit-mask-size: contain;
     mask-size: contain;
-    clip-path: polygon(-10% -10%, 100% 0, 100% 70%, 0 70%);
+    clip-path: polygon(-10% -10%, 100% 0, 100% 75%, 0 75%);
   }
   .head-container.bottom {
     position: absolute;
@@ -56,7 +56,7 @@
     left: 0;
     animation: bottomHeadMove 1s infinite linear alternate
       var(--animation-state);
-    clip-path: polygon(0 70%, 100% 70%, 110% 100%, -10% 100%);
+    clip-path: polygon(0 75%, 100% 75%, 110% 100%, -10% 100%);
   }
   .head-container.bottom::before {
     content: "";
@@ -74,7 +74,7 @@
     clip-path: ellipse(40% 50% at 50% 40%);
   }
   .top-head-img {
-    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%);
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);
   }
   .bottom-head-img {
     /* clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%) ; */

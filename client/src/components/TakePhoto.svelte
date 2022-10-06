@@ -2,6 +2,7 @@
   import { onMount } from "svelte"
   import { page } from "$app/stores"
   import AvatarHead from "./AvatarHead.svelte"
+  import { loginStep } from "$/stores"
 
   const fetchApiParameter = $page.url.searchParams.has("fetch")
 
@@ -9,15 +10,17 @@
   let imgSrc = ""
   let faceOverlayWidth = 0
   let faceOverlayHeight = 0
+  let cameraPending = true
 
-  onMount(async () => {
+  const launchCamera = async () => {
     let stream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: false,
       facingMode: "user",
     })
+    cameraPending = false
     video.srcObject = stream
-  })
+  }
 
   const takePhoto = () => {
     video.srcObject.getTracks().forEach((track) => track.stop())
@@ -66,31 +69,146 @@
       imgSrc = image_data_url
     }
   }
+
+  const handleConfirmClick = () => {
+    loginStep.update((n) => n + 1)
+  }
+
+  const handleCancelClick = () => {
+    imgSrc = ""
+    launchCamera()
+  }
+
+  onMount(launchCamera)
 </script>
 
 <div class="video-container">
-  <div
-    bind:clientWidth={faceOverlayWidth}
-    bind:clientHeight={faceOverlayHeight}
-    class="face-overlay"
-  >
-    <div class="line" />
-    <div class="circle" />
-  </div>
   {#if imgSrc}
-    <AvatarHead {imgSrc} background="aqua" />
+    <div class="step2-container">
+      <div class="presentation-text">
+        <p>Tu valides ce beau visage ?</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#EFEFEF"
+          viewBox="0 0 267 109"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M234.5 0 267 22.4l-8.3 35.2-8.3 42.4-70.8 8.8L129.4 96l-115.7 6.4-13.3-60L19.5 0l103.3 5.6L234.5 0Z"
+          />
+        </svg>
+      </div>
+      <AvatarHead {imgSrc} background="white" />
+      <div class="cta">
+        <button on:click={handleConfirmClick}>
+          oh que oui !
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#EFEFEF"
+            viewBox="0 0 213 48"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="m0 0 55 3.5L139 0h74v17.3l-2.6 14 2.6 15-92-3.5L58.6 48 0 46.3l2.6-29L0 0Z"
+            />
+          </svg>
+        </button>
+        <button class="stroke-button" on:click={handleCancelClick}>
+          horrible...
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#EFEFEF"
+            viewBox="0 0 213 48"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <path
+              d="m0 0 55 3.5L139 0h74v17.3l-2.6 14 2.6 15-92-3.5L58.6 48 0 46.3l2.6-29L0 0Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video bind:this={video} on:click={takePhoto} autoplay />
+    {#if cameraPending}
+      <div class="pending-message">
+        <p>autorise la caméra bg, laisse moi voir ta tronche</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#EFEFEF"
+          viewBox="0 0 213 48"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="m0 0 55 3.5L139 0h74v17.3l-2.6 14 2.6 15-92-3.5L58.6 48 0 46.3l2.6-29L0 0Z"
+          />
+        </svg>
+      </div>
+    {:else}
+      <div
+        bind:clientWidth={faceOverlayWidth}
+        bind:clientHeight={faceOverlayHeight}
+        class="face-overlay"
+      >
+        <div class="line" />
+        <div class="circle" />
+      </div>
+    {/if}
   {/if}
 </div>
 
 <style>
+  .step2-container {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    height: 100%;
+    justify-items: center;
+    gap: 1rem;
+  }
+  .presentation-text {
+    position: relative;
+    z-index: 1;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: flex-end;
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+  .cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  button {
+    position: relative;
+    z-index: 1;
+    padding: 1rem 3rem;
+  }
+  .stroke-button {
+    color: var(--white);
+  }
+  .pending-message {
+    position: absolute;
+    color: var(--white);
+    font-size: 1.5rem;
+    width: 80%;
+  }
   .face-overlay {
     z-index: 1;
     position: absolute;
-    width: 40vw;
-    height: 60vw;
+    width: 80%;
+    height: 60%;
     pointer-events: none;
   }
   .line {
@@ -108,8 +226,8 @@
   }
   .video-container {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;

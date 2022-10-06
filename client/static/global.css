@@ -98,6 +98,11 @@ button {
   outline: none;
   padding: 1rem;
 }
-ul{
+button {
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 1rem;
+}
+ul {
   list-style: none;
 }
