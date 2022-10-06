@@ -27,6 +27,7 @@
     padding: 0.5rem 1.5rem;
     gap: 1.5rem;
     color: var(--white);
+    z-index:  10;
   }
 
   .group-img {
