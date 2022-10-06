@@ -1,7 +1,7 @@
 <script>
   export let imgSrc = "/head.png"
   export let background = "white"
-  export let animationState = "paused"
+  export let animationState = "running"
   export let width
 </script>
 

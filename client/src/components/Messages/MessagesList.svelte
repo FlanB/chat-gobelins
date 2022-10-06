@@ -5,17 +5,18 @@
   let messagesContainer = null
   let messages = []
 
-  // socket.emit("getMessages", (data) => {
-  //   console.log(data)
-  //   messages = data
-  // })
-  socket.on("message", (message) => {
-    messages = [...messages, message.value]
-
-    setTimeout(() => {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight
-    }, 1)
+  socket.emit("getMessages")
+  socket.on("messages", (data) => {
+    console.log(data)
+    messages = data.map((message) => message.value)
   })
+  // socket.on("message", (message) => {
+  //   messages = [...messages, message.value]
+
+  //   setTimeout(() => {
+  //     messagesContainer?.scrollTo(0, messagesContainer?.scrollHeight)
+  //   }, 1)
+  // })
 </script>
 
 {#if messages.length}
