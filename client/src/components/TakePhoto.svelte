@@ -71,6 +71,7 @@
   }
 
   const handleConfirmClick = () => {
+    sessionStorage.setItem("avatar", imgSrc)
     loginStep.update((n) => n + 1)
   }
 
