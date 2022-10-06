@@ -1,8 +1,12 @@
 <script>
   import { onMount } from "svelte"
+  import AvatarHead from "./AvatarHead.svelte"
 
   let video = null
-  let imgSrc = ""
+  let imgSrc = "/head.png"
+  let faceOverlayWidth = 0
+  let faceOverlayHeight = 0
+  let headElement = null
 
   onMount(async () => {
     let stream = await navigator.mediaDevices.getUserMedia({
@@ -10,46 +14,63 @@
       audio: false,
       facingMode: "user",
     })
-    // reverse stream direction
     video.srcObject = stream
   })
 
   const takePhoto = () => {
+    video.srcObject.getTracks().forEach((track) => track.stop())
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
+
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
     ctx.scale(-1, 1)
+
     ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height)
     let image_data_url = canvas.toDataURL("image/jpeg")
 
-    // stop the video stream
-    video.srcObject.getTracks().forEach((track) => track.stop())
+    //transform curl to fetch function
 
-    // data url of the image
-    console.log(image_data_url)
+    // fetch("https://api.remove.bg/v1.0/removebg", {
+    //   method: "POST",
+    //   headers: {
+    //     accept: "image/*",
+    //     "X-Api-Key": "9bkaSAWoFbREYvjVnVemJ1qa",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     image_file_b64: image_data_url,
+    //     crop: true,
+    //     size: "preview",
+    //   }),
+    // }).then((response) => {
+    //   response.blob().then((blob) => {
+    //     imgSrc = URL.createObjectURL(blob)
+    //   })
+    // })
     imgSrc = image_data_url
   }
 </script>
 
-<!-- svelte-ignore a11y-media-has-caption -->
-
-<!-- overlay on video -->
-
 <div class="video-container">
-  <div class="overlay">
+  <div
+    bind:clientWidth={faceOverlayWidth}
+    bind:clientHeight={faceOverlayHeight}
+    class="face-overlay"
+  >
     <div class="line" />
     <div class="circle" />
   </div>
   {#if imgSrc}
-    <img src={imgSrc} alt="" />
+    <AvatarHead {imgSrc} {headElement} />
   {:else}
+    <!-- svelte-ignore a11y-media-has-caption -->
     <video bind:this={video} on:click={takePhoto} autoplay />
   {/if}
 </div>
 
 <style>
-  .overlay {
+  .face-overlay {
     z-index: 1;
     position: absolute;
     width: 40vw;
@@ -77,13 +98,10 @@
     justify-content: center;
     align-items: center;
   }
-  img,
   video {
+    transform: scaleX(-1);
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  video{
-    transform: scaleX(-1);
   }
 </style>

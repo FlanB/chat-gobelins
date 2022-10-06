@@ -10,6 +10,6 @@
 </script>
 
 <form on:submit|preventDefault={onSubmitMessage}>
-  <input autofocus bind:value={messageValue}  name="message" placeholder="Type your message here" type="text">
+  <input bind:value={messageValue}  name="message" placeholder="Type your message here" type="text">
   <input type="submit" value="Send">
 </form>
