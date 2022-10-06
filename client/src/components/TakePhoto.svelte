@@ -1,12 +1,14 @@
 <script>
   import { onMount } from "svelte"
+  import { page } from "$app/stores"
   import AvatarHead from "./AvatarHead.svelte"
 
+  const fetchApiParameter = $page.url.searchParams.has("fetch")
+
   let video = null
-  let imgSrc = "/head.png"
+  let imgSrc = ""
   let faceOverlayWidth = 0
   let faceOverlayHeight = 0
-  let headElement = null
 
   onMount(async () => {
     let stream = await navigator.mediaDevices.getUserMedia({
@@ -22,33 +24,47 @@
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
 
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+    const faceOverlayWidthModified = faceOverlayWidth * 0.75
+    const faceOverlayHeightModified = faceOverlayHeight * 0.65
+
+    canvas.width = faceOverlayWidthModified
+    canvas.height = faceOverlayHeightModified
     ctx.scale(-1, 1)
 
-    ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height)
+    ctx.drawImage(
+      video,
+      (video.videoWidth - faceOverlayWidthModified) / 2,
+      (video.videoHeight - faceOverlayHeightModified) / 2,
+      canvas.width,
+      canvas.height,
+      -canvas.width,
+      0,
+      canvas.width,
+      canvas.height
+    )
     let image_data_url = canvas.toDataURL("image/jpeg")
 
-    //transform curl to fetch function
-
-    // fetch("https://api.remove.bg/v1.0/removebg", {
-    //   method: "POST",
-    //   headers: {
-    //     accept: "image/*",
-    //     "X-Api-Key": "9bkaSAWoFbREYvjVnVemJ1qa",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     image_file_b64: image_data_url,
-    //     crop: true,
-    //     size: "preview",
-    //   }),
-    // }).then((response) => {
-    //   response.blob().then((blob) => {
-    //     imgSrc = URL.createObjectURL(blob)
-    //   })
-    // })
-    imgSrc = image_data_url
+    if (fetchApiParameter) {
+      fetch("https://api.remove.bg/v1.0/removebg", {
+        method: "POST",
+        headers: {
+          accept: "image/*",
+          "X-Api-Key": "9bkaSAWoFbREYvjVnVemJ1qa",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image_file_b64: image_data_url,
+          crop: true,
+          size: "preview",
+        }),
+      }).then((response) => {
+        response.blob().then((blob) => {
+          imgSrc = URL.createObjectURL(blob)
+        })
+      })
+    } else {
+      imgSrc = image_data_url
+    }
   }
 </script>
 
@@ -62,7 +78,7 @@
     <div class="circle" />
   </div>
   {#if imgSrc}
-    <AvatarHead {imgSrc} {headElement} />
+    <AvatarHead {imgSrc} background="aqua" />
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video bind:this={video} on:click={takePhoto} autoplay />

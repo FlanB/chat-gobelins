@@ -1,8 +1,13 @@
 <script>
   export let imgSrc
+  export let background
 </script>
 
-<div class="container">
+<div
+  class="container"
+  style:--head-url={`url(${imgSrc})`}
+  style:--background={background}
+>
   <div class="head-container top">
     <img class="top-head-img" src={imgSrc} alt="" />
   </div>
@@ -31,16 +36,17 @@
     width: 100%;
     height: 100%;
     transform: scale(1.05);
-    background: aqua;
-    -webkit-mask-image: url("/head.png");
-    mask-image: url("/head.png");
-    clip-path: polygon(-10% -10%, 100% 0, 100% 75%, 0 75%);
+    background: var(--background);
+    -webkit-mask-image: var(--head-url);
+    mask-image: var(--head-url);
+    clip-path: polygon(-10% -10%, 100% 0, 100% 70%, 0 70%);
   }
   .head-container.bottom {
     position: absolute;
     top: 0;
     left: 0;
     animation: bottomHeadMove 1s infinite linear alternate;
+    clip-path: polygon(0 70%, 100% 70%, 110% 100%, -10% 100%);
   }
   .head-container.bottom::before {
     content: "";
@@ -50,26 +56,18 @@
     width: 100%;
     height: 100%;
     transform: scale(1.05);
-    background: aqua;
-    -webkit-mask-image: url("/head.png");
-    mask-image: url("/head.png");
-    clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
+    background: var(--background);
+    -webkit-mask-image: var(--head-url);
+    mask-image: var(--head-url);
+    clip-path: ellipse(40% 50% at 50% 40%);
   }
   .top-head-img {
-    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 75%);
-  }
-  .shadow {
-    height: 100%;
-
-    width: 100%;
-    z-index: -1;
-
-    filter: none;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 70%);
   }
   .bottom-head-img {
-    clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
+    /* clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%) ; */
+    clip-path: ellipse(40% 50% at 50% 40%);
   }
-
   @keyframes bottomHeadMove {
     0% {
       transform: rotate(0) translateY(0);
