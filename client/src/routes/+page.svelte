@@ -1,7 +1,10 @@
 <script>
-  import MessageInput from "$components/MessageInput.svelte"
-  import MessagesList from "$components/MessagesList.svelte"
+  import MessageInput from "$/components/Messages/MessageInput.svelte"
+  import MessagesList from "$/components/Messages/MessagesList.svelte"
+  import Container from "$/components/Container.svelte"
+  import MessagesBox from "$/components/Messages/MessagesBox.svelte"
 </script>
 
-<MessageInput />
-<MessagesList />
+<Container>
+  <MessagesBox />
+</Container>
