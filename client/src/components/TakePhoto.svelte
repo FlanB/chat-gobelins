@@ -6,12 +6,34 @@
   import randomFonts from "$/functions/randomFonts"
 
   const fetchApiParameter = $page.url.searchParams.has("fetch")
+  const canvasApiParameter = $page.url.searchParams.has("canvas")
 
   let video = null
+  let canvas = null
   let imgSrc = ""
   let faceOverlayWidth = 0
   let faceOverlayHeight = 0
   let cameraPending = true
+
+  //stream on canvas
+  // async function launchCamera() {
+  //   let stream = await navigator.mediaDevices.getUserMedia({
+  //     video: true,
+  //     audio: false,
+  //     facingMode: "user",
+  //   })
+  //   cameraPending = false
+  //   video.srcObject = stream
+  //   const ctx = canvas.getContext("2d")
+  //   const { width, height } = video.getBoundingClientRect()
+  //   canvas.width = width
+  //   canvas.height = height
+  //   ctx.drawImage(video, 0, 0, width, height)
+  // }
+
+  // function takePhoto() {
+  //   console.log("take photo")
+  // }
 
   const launchCamera = async () => {
     let stream = await navigator.mediaDevices.getUserMedia({
@@ -108,7 +130,7 @@
       <AvatarHead {imgSrc} background="white" />
       <div class="cta">
         <button on:click={handleConfirmClick}>
-         <p use:randomFonts> oh que oui !</p>
+          <p use:randomFonts>oh que oui !</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#EFEFEF"
@@ -121,7 +143,7 @@
           </svg>
         </button>
         <button class="stroke-button" on:click={handleCancelClick}>
-         <p use:randomFonts> horrible...</p>
+          <p use:randomFonts>horrible...</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             stroke="#EFEFEF"
@@ -138,7 +160,8 @@
     </div>
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
-    <video bind:this={video} on:click={takePhoto} autoplay />
+    <video bind:this={video} on:click={takePhoto} autoplay playsinline />
+    <!-- <canvas bind:this={canvas} on:click={takePhoto} /> -->
     {#if cameraPending}
       <div class="pending-message">
         <p use:randomFonts>autorise la caméra bg, laisse moi voir ta tronche</p>
@@ -244,10 +267,14 @@
     justify-content: center;
     align-items: center;
   }
-  video {
+  video,
+  canvas {
     transform: scaleX(-1);
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+  video {
+    visibility: hidden;
   }
 </style>
