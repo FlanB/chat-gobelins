@@ -1,6 +1,6 @@
 <script>
   import AvatarHead from "../AvatarHead.svelte"
-  import { loginStep } from "$/stores"
+  import { loginStep,socket } from "$/stores"
 
   let imgSrc = sessionStorage.getItem("avatar")
   let color = sessionStorage.getItem("avatarColor")
@@ -9,6 +9,7 @@
   const handleConfirmClick = () => {
     if (inputNameValue.length > 0) {
       sessionStorage.setItem("username", inputNameValue)
+      socket.emit("setUsername", inputNameValue)
       loginStep.update((n) => n + 1)
     }
   }

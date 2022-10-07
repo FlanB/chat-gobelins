@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
   import { page } from "$app/stores"
   import AvatarHead from "./AvatarHead.svelte"
-  import { loginStep } from "$/stores"
+  import { loginStep, socket } from "$/stores"
 
   const fetchApiParameter = $page.url.searchParams.has("fetch")
 
@@ -62,7 +62,11 @@
         }),
       }).then((response) => {
         response.blob().then((blob) => {
-          imgSrc = URL.createObjectURL(blob)
+          const a = new FileReader()
+          a.onload = (e) => {
+            imgSrc = e.target.result
+          }
+          a.readAsDataURL(blob)
         })
       })
     } else {
@@ -72,6 +76,7 @@
 
   const handleConfirmClick = () => {
     sessionStorage.setItem("avatar", imgSrc)
+    socket.emit("setAvatar", imgSrc)
     loginStep.update((n) => n + 1)
   }
 

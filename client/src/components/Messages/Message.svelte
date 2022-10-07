@@ -1,13 +1,15 @@
 <script>
   import AvatarHead from "../AvatarHead.svelte"
-
+  export let avatarSrc = "/head.png"
   export let content = "lorem ipsum dolor sit amet"
   export let direction = "left"
+  
 </script>
 
 <div
   class="message"
   style:flex-direction={direction === "left" && "row-reverse"}
+  style:transform-origin={direction}
 >
   <div
     class="content"
@@ -25,12 +27,14 @@
       />
     </svg>
   </div>
+ <div>
   <AvatarHead
-    width="10rem"
-    imgSrc="/head.png"
-    background="aqua"
-    animationState="paused"
-  />
+  width="8rem"
+  imgSrc={avatarSrc}
+  background="aqua"
+  animationState="once"
+/>
+ </div>
 </div>
 
 <style>
@@ -38,16 +42,20 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
+    width: 90%;
+    margin: auto;
+    transition: transform 0.2s ease-out;
   }
 
   .content {
     position: relative;
     z-index: 1;
     width: max-content;
-    transform: translateX(75px) rotate(-10deg);
+    transform: translateX(16px) rotate(-10deg);
   }
   .content p {
     padding: 1rem 1.5rem;
+    width: 10rem;
   }
   .content svg {
     position: absolute;

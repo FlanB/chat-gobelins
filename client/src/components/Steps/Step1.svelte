@@ -4,11 +4,13 @@
   const handleClick = () => {
     loginStep.update((n) => n + 1)
   }
+
+  
 </script>
 
 <div class="step1-container">
   <div class="presentation-text">
-    <h1>Prend toi en photo avant de pouvoir discuter</h1>
+    <h1>Prends toi en photo avant de pouvoir discuter</h1>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="#EFEFEF"

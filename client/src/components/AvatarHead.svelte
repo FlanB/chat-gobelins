@@ -7,10 +7,14 @@
 
 <div
   class="container"
-  style:width
+  style:min-width={width}
+  style:max-width={width}
   style:--head-url={`url(${imgSrc})`}
   style:--background={background}
-  style:--animation-state={animationState}
+  style:--animation-state={animationState === "paused" ? "paused" : "running"}
+  style:--animation-iteration-count={animationState === "once"
+    ? "3"
+    : "infinite"}
 >
   <div class="head-container top">
     <img class="top-head-img" src={imgSrc} alt="" />
@@ -33,7 +37,8 @@
   }
 
   .head-container.top {
-    animation: topHeadMove 1s infinite linear alternate var(--animation-state);
+    animation: topHeadMove 1s var(--animation-iteration-count) linear
+      alternate-reverse var(--animation-state);
   }
   .head-container.top::before {
     content: "";
@@ -54,8 +59,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    animation: bottomHeadMove 1s infinite linear alternate
-      var(--animation-state);
+    animation: bottomHeadMove 1s var(--animation-iteration-count) linear
+      alternate-reverse var(--animation-state);
     clip-path: polygon(0 75%, 100% 75%, 110% 100%, -10% 100%);
   }
   .head-container.bottom::before {

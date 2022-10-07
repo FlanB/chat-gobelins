@@ -1,18 +1,15 @@
 <script>
   import ArrowBack from "../Icons/ArrowBack.svelte"
 
+  const imgSrc = sessionStorage.getItem("avatar")
+
   export let groupTitle = "The office"
   export let membersList = ["Jim", "Pam", "Dwight", "Kelly"]
 </script>
 
 <header class="messages-header">
   <ArrowBack width="1rem" height="1.25rem" />
-  <img
-    class="group-img"
-    src="/headWendy.png"
-    alt=""
-    style="filter:grayscale()"
-  />
+  <img class="group-img" src={imgSrc} alt="" style="filter:grayscale()" />
   <div>
     <h1>{groupTitle}</h1>
     <h2>{membersList}</h2>
@@ -27,7 +24,7 @@
     padding: 0.5rem 1.5rem;
     gap: 1.5rem;
     color: var(--white);
-    z-index:  10;
+    z-index: 10;
   }
 
   .group-img {
