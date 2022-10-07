@@ -1,16 +1,15 @@
 <script>
   import { loginStep } from "$/stores"
+  import randomFonts from "$/functions/randomFonts"
 
   const handleClick = () => {
     loginStep.update((n) => n + 1)
   }
-
-  
 </script>
 
 <div class="step1-container">
   <div class="presentation-text">
-    <h1>Prends toi en photo avant de pouvoir discuter</h1>
+    <h1 use:randomFonts>Prends toi en photo avant de pouvoir discuter</h1>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="#EFEFEF"
@@ -23,7 +22,7 @@
     </svg>
   </div>
   <button on:click={handleClick}>
-    C'est parti !
+    <p use:randomFonts>C'est parti !</p>
     <svg
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"

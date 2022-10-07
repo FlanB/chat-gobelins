@@ -3,7 +3,6 @@
   export let avatarSrc = "/head.png"
   export let content = "lorem ipsum dolor sit amet"
   export let direction = "left"
-  
 </script>
 
 <div
@@ -27,14 +26,14 @@
       />
     </svg>
   </div>
- <div>
-  <AvatarHead
-  width="8rem"
-  imgSrc={avatarSrc}
-  background="aqua"
-  animationState="once"
-/>
- </div>
+  <div>
+    <AvatarHead
+      width="8rem"
+      imgSrc={avatarSrc}
+      background="aqua"
+      animationState="once"
+    />
+  </div>
 </div>
 
 <style>
@@ -45,6 +44,7 @@
     width: 90%;
     margin: auto;
     transition: transform 0.2s ease-out;
+    font-family: "Archivo", sans-serif;
   }
 
   .content {

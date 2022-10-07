@@ -7,14 +7,9 @@
   import TakePhoto from "$/components/TakePhoto.svelte"
 
   import { loginStep } from "$/stores"
-
-  //TODO: Check if pending message of camera is up
-  //TODO: Create a function to transform all words with different fonts
-  //TODO: optimize step template
 </script>
 
 <Container>
-  <!-- <MessagesBox /> -->
   {#if $loginStep === 0}
     <Step1 />
   {:else if $loginStep === 1}
@@ -23,7 +18,7 @@
     <Step3 />
   {:else if $loginStep === 3}
     <Step4 />
-    {:else}
+  {:else}
     <MessagesBox />
   {/if}
 </Container>

@@ -1,4 +1,5 @@
 <script>
+  import randomFonts from "$/functions/randomFonts"
   import { socket } from "$/stores.js"
   import { onMount } from "svelte"
   import Message from "./Message.svelte"
@@ -15,9 +16,9 @@
     }, 1)
   }
 
-  onMount(() => {
-    messageHeight = messagesContainer.scrollHeight / messages.length
-  })
+  // onMount(() => {
+  //   messageHeight = messagesContainer.scrollHeight / messages.length
+  // })
 
   socket.emit("getMessages")
   socket.on("messages", (data) => {
@@ -63,7 +64,7 @@
     {/each}
   </ul>
 {:else}
-  <div class="blank">C’est pas qu’on s’ennuie mais bon...</div>
+  <div class="blank" use:randomFonts>C’est pas qu’on s’ennuie mais bon...</div>
 {/if}
 
 <style>

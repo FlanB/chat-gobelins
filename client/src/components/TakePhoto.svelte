@@ -3,6 +3,7 @@
   import { page } from "$app/stores"
   import AvatarHead from "./AvatarHead.svelte"
   import { loginStep, socket } from "$/stores"
+  import randomFonts from "$/functions/randomFonts"
 
   const fetchApiParameter = $page.url.searchParams.has("fetch")
 
@@ -92,7 +93,7 @@
   {#if imgSrc}
     <div class="step2-container">
       <div class="presentation-text">
-        <p>Tu valides ce beau visage ?</p>
+        <p use:randomFonts>Tu valides ce beau visage ?</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="#EFEFEF"
@@ -107,7 +108,7 @@
       <AvatarHead {imgSrc} background="white" />
       <div class="cta">
         <button on:click={handleConfirmClick}>
-          oh que oui !
+         <p use:randomFonts> oh que oui !</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#EFEFEF"
@@ -120,7 +121,7 @@
           </svg>
         </button>
         <button class="stroke-button" on:click={handleCancelClick}>
-          horrible...
+         <p use:randomFonts> horrible...</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             stroke="#EFEFEF"
@@ -140,7 +141,7 @@
     <video bind:this={video} on:click={takePhoto} autoplay />
     {#if cameraPending}
       <div class="pending-message">
-        <p>autorise la caméra bg, laisse moi voir ta tronche</p>
+        <p use:randomFonts>autorise la caméra bg, laisse moi voir ta tronche</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="#EFEFEF"
@@ -209,6 +210,11 @@
     color: var(--white);
     font-size: 1.5rem;
     width: 80%;
+    z-index: 1;
+    color: var(--black);
+    padding: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
   }
   .face-overlay {
     z-index: 1;

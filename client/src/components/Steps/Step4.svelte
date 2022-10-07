@@ -1,6 +1,7 @@
 <script>
   import AvatarHead from "../AvatarHead.svelte"
   import { loginStep,socket } from "$/stores"
+  import randomFonts from "$/functions/randomFonts"
 
   let imgSrc = sessionStorage.getItem("avatar")
   let color = sessionStorage.getItem("avatarColor")
@@ -17,7 +18,7 @@
 
 <div class="step-container">
   <div class="presentation-text">
-    <p>C'est quoi ton petit nom ?</p>
+    <p use:randomFonts>C'est quoi ton petit nom ?</p>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="#EFEFEF"
@@ -41,7 +42,7 @@
   </form>
   <div class="cta">
     <button on:click={handleConfirmClick}>
-      Suivant
+      <p use:randomFonts>Suivant</p>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="#EFEFEF"
@@ -93,5 +94,6 @@
     color: var(--white);
     font-size: 2rem;
     text-align: center;
+    font-family: "Handmade", sans-serif;
   }
 </style>

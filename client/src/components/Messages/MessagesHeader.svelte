@@ -1,4 +1,5 @@
 <script>
+  import randomFonts from "$/functions/randomFonts"
   import ArrowBack from "../Icons/ArrowBack.svelte"
 
   const imgSrc = sessionStorage.getItem("avatar")
@@ -11,7 +12,7 @@
   <ArrowBack width="1rem" height="1.25rem" />
   <img class="group-img" src={imgSrc} alt="" style="filter:grayscale()" />
   <div>
-    <h1>{groupTitle}</h1>
+    <h1 use:randomFonts>{groupTitle}</h1>
     <h2>{membersList}</h2>
   </div>
 </header>
