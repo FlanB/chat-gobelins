@@ -5,7 +5,11 @@
   import { loginStep, socket } from "$/stores"
   import randomFonts from "$/functions/randomFonts"
 
-  const fetchApiParameter = $page.url.searchParams.has("fetch")
+  // const fetchApiParameter = $page.url.searchParams.has("fetch")
+  const fetchApiParameter = true
+  if (fetchApiParameter) {
+    console.log("fetch api parameter")
+  }
 
   let video = null
   let imgSrc = ""
@@ -47,6 +51,8 @@
       canvas.height
     )
     let image_data_url = canvas.toDataURL("image/jpeg")
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+    console.log(canvas.toDataURL("image/jpeg"))
 
     if (fetchApiParameter) {
       fetch("https://api.remove.bg/v1.0/removebg", {
@@ -108,7 +114,7 @@
       <AvatarHead {imgSrc} background="white" />
       <div class="cta">
         <button on:click={handleConfirmClick}>
-         <p use:randomFonts> oh que oui !</p>
+          <p use:randomFonts>oh que oui !</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#EFEFEF"
@@ -121,7 +127,7 @@
           </svg>
         </button>
         <button class="stroke-button" on:click={handleCancelClick}>
-         <p use:randomFonts> horrible...</p>
+          <p use:randomFonts>horrible...</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             stroke="#EFEFEF"
@@ -138,7 +144,13 @@
     </div>
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
-    <video bind:this={video} on:click={takePhoto} autoplay webkit-playsinline playsinline />
+    <video
+      bind:this={video}
+      on:click={takePhoto}
+      autoplay
+      webkit-playsinline
+      playsinline
+    />
     {#if cameraPending}
       <div class="pending-message">
         <p use:randomFonts>autorise la caméra bg, laisse moi voir ta tronche</p>
