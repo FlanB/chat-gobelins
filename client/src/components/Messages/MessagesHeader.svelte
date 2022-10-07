@@ -1,19 +1,27 @@
 <script>
   import randomFonts from "$/functions/randomFonts"
-  import ArrowBack from "../Icons/ArrowBack.svelte"
+
+  import { socket } from "$/stores"
 
   const imgSrc = sessionStorage.getItem("avatar")
 
   export let groupTitle = "The office"
   export let membersList = ["Jim", "Pam", "Dwight", "Kelly"]
+  export let onClick = () => {}
+
+  socket.emit("getUsers")
+  socket.on("users", (data) => {
+    membersList = data.map((user) => user.name).slice(0, 4)
+    console.log(membersList)
+  })
 </script>
 
-<header class="messages-header">
-  <ArrowBack width="1rem" height="1.25rem" />
+<header on:click={onClick} class="messages-header">
+
   <img class="group-img" src={imgSrc} alt="" style="filter:grayscale()" />
   <div>
     <h1 use:randomFonts>{groupTitle}</h1>
-    <h2>{membersList}</h2>
+    <h2>{membersList},...</h2>
   </div>
 </header>
 
@@ -26,6 +34,7 @@
     gap: 1.5rem;
     color: var(--white);
     z-index: 10;
+    cursor: pointer;
   }
 
   .group-img {

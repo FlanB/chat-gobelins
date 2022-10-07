@@ -1,6 +1,6 @@
 <script>
   import AvatarHead from "../AvatarHead.svelte"
-  import { loginStep } from "$/stores"
+  import { loginStep, socket } from "$/stores"
   import randomFonts from "$/functions/randomFonts"
 
   let imgSrc = sessionStorage.getItem("avatar")
@@ -17,6 +17,7 @@
 
   const handleConfirmClick = () => {
     sessionStorage.setItem("avatarColor", selectedColor)
+    socket.emit("setColor", selectedColor)
     loginStep.update((n) => n + 1)
   }
 </script>

@@ -3,6 +3,7 @@
   export let avatarSrc = "/head.png"
   export let content = "lorem ipsum dolor sit amet"
   export let direction = "left"
+  export let color = "aqua"
 </script>
 
 <div
@@ -26,11 +27,16 @@
       />
     </svg>
   </div>
-  <div>
+  <div
+    class="avatar-head"
+    style:transform={direction === "left"
+      ? `rotate(-5deg) translateX(${Math.random() * 20 - 10}px)`
+      : `rotate(5deg) translateX(${Math.random() * 20 - 10}px)`}
+  >
     <AvatarHead
       width="8rem"
       imgSrc={avatarSrc}
-      background="aqua"
+      background={color}
       animationState="once"
     />
   </div>
@@ -51,7 +57,7 @@
     position: relative;
     z-index: 1;
     width: max-content;
-    transform: translateX(16px) rotate(-10deg);
+    transform: translateX(64px) rotate(-10deg);
   }
   .content p {
     padding: 1rem 1.5rem;

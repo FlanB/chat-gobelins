@@ -59,6 +59,7 @@ class Connection {
     socket.on("message", (value) => this.handleMessage(value))
 
     socket.on("setAvatar", (avatar) => this.setAvatar(avatar))
+    socket.on("setColor", (color) => this.setColor(color))
 
     socket.on("setRole", (role) => this.setRole(role))
 
@@ -92,6 +93,13 @@ class Connection {
     user.avatar = avatar
     usersSockets.set(this.socket, user)
     this.io.sockets.emit("updateAvatar", user)
+  }
+
+  setColor(color) {
+    const user = usersSockets.get(this.socket)
+    user.color = color
+    usersSockets.set(this.socket, user)
+    this.io.sockets.emit("updateColor", user)
   }
 
   setRole(role) {

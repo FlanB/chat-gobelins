@@ -1,14 +1,13 @@
 <script>
   import randomFonts from "$/functions/randomFonts"
   import { socket } from "$/stores.js"
-  import { onMount } from "svelte"
   import Message from "./Message.svelte"
 
   let messagesContainer = null
-  let messageHeight = 164 + 16
+  let messageHeight = 181
 
   let messages = []
-  let currentUser = sessionStorage.getItem("username")
+  let currentUser = sessionStorage.getItem("id")
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -59,12 +58,15 @@
       <Message
         content={message.value}
         avatarSrc={message.user.avatar}
-        direction={currentUser === message.user.name ? "right" : "left"}
+        direction={currentUser === message.user.id ? "right" : "left"}
+        color={message.user.color}
       />
     {/each}
   </ul>
 {:else}
-  <div class="blank" use:randomFonts>C’est pas qu’on s’ennuie mais bon...</div>
+  <div class="blank">
+    <p use:randomFonts>C’est pas qu’on s’ennuie mais bon...</p>
+  </div>
 {/if}
 
 <style>
@@ -72,8 +74,8 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    gap: 2rem;
-    margin-top: 2rem;
+    padding-top: 2rem;
+    overflow-x: hidden;
   }
   .blank {
     text-align: center;

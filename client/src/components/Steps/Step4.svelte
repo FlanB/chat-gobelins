@@ -1,6 +1,6 @@
 <script>
   import AvatarHead from "../AvatarHead.svelte"
-  import { loginStep,socket } from "$/stores"
+  import { loginStep, socket } from "$/stores"
   import randomFonts from "$/functions/randomFonts"
 
   let imgSrc = sessionStorage.getItem("avatar")
@@ -9,7 +9,7 @@
 
   const handleConfirmClick = () => {
     if (inputNameValue.length > 0) {
-      sessionStorage.setItem("username", inputNameValue)
+      sessionStorage.setItem("id", socket.id)
       socket.emit("setUsername", inputNameValue)
       loginStep.update((n) => n + 1)
     }
@@ -94,6 +94,19 @@
     color: var(--white);
     font-size: 2rem;
     text-align: center;
+    font-family: "Handmade", sans-serif;
+    width: 100%;
+  }
+  .input-container input::-webkit-input-placeholder {
+    font-family: "Handmade", sans-serif;
+  }
+  .input-container input::-moz-placeholder {
+    font-family: "Handmade", sans-serif;
+  }
+  .input-container input:-ms-input-placeholder {
+    font-family: "Handmade", sans-serif;
+  }
+  .input-container input::placeholder {
     font-family: "Handmade", sans-serif;
   }
 </style>
