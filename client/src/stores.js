@@ -1,7 +1,7 @@
 import { io } from "socket.io-client"
 import { writable } from "svelte/store"
 
-export const socket = io("https://chat-gobelins.herokuapp.com/")
+export const socket = io("https://chat-gobelins-server.onrender.com/")
 socket.on("connect", () => {
   console.log("connected")
 })
